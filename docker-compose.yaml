@@ -1,4 +1,3 @@
-name: test-assignment
 services:
   nginx:
     container_name: nginx
