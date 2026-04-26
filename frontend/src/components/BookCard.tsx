@@ -14,7 +14,7 @@ export default function BookCard({ book }: Props) {
         <div className="card">
             <h2 className="text-xl font-bold">{book.name}</h2>
             <p className="text-gray-600 mt-1">{shortDesc}</p>
-            <p className="text-sm text-gray-500 mt-2">by {book.publisher}</p>
+            <p className="text-sm text-gray-500 mt-2">От {book.publisher}</p>
             <Link to={`/books/${book.id}`} className="btn btn-primary mt-4 inline-block">
                 Подробности
             </Link>

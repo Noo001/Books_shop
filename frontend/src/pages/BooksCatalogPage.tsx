@@ -42,7 +42,7 @@ export default function BooksCatalogPage() {
                         onClick={() => setOrder(order === 'asc' ? 'desc' : 'asc')}
                         className="btn btn-secondary"
                     >
-                        {order === 'asc' ? '↑ Asc' : '↓ Desc'}
+                        {order === 'asc' ? '↑ Туда' : '↓ Сюда'}
                     </button>
                     {user?.role === 'admin' && (
                         <Link to="/books/new" className="btn btn-primary">
