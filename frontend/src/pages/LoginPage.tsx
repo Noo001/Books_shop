@@ -1,13 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function LoginPage() {
     const [loginInput, setLoginInput] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const { login } = useAuth();
+    const { login, user, loading } = useAuth();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!loading && user) {
+            navigate('/books', { replace: true });
+        }
+    }, [user, loading, navigate]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -19,6 +25,14 @@ export default function LoginPage() {
             setError('Invalid login or password');
         }
     };
+
+    if (loading) {
+        return <div className="login-container">Loading...</div>;
+    }
+
+    if (user) {
+        return null;
+    }
 
     return (
         <div className="login-container">
@@ -48,11 +62,11 @@ export default function LoginPage() {
                 </div>
 
                 <button type="submit" className="btn-login">
-                    Sign In
+                    Войти
                 </button>
 
                 <div className="text-center mt-4 text-sm" style={{ color: '#6b7280' }}>
-                    Demo: user/user, admin/admin
+                    демО: user/user, admin/admin
                 </div>
             </form>
         </div>

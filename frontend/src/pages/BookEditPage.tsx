@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import BookForm from '../components/BookForm';
-import { BookFormData, Book } from '../types';
+import BookForm from '@/components/BookForm';
+import { BookFormData, Book } from '@/types';
 
 export default function BookEditPage() {
     const { id } = useParams<{ id: string }>();
@@ -27,7 +27,7 @@ export default function BookEditPage() {
 
         if (!response.ok) {
             const error = await response.json();
-            throw new Error(error.message || 'Failed to update book');
+            throw new Error(error.message || 'Невозможно обновить книгу');
         }
 
         navigate('/books');

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Book } from '../types';
+import { Book } from '@/types';
 
 interface Props {
     book: Book;
@@ -16,7 +16,7 @@ export default function BookCard({ book }: Props) {
             <p className="text-gray-600 mt-1">{shortDesc}</p>
             <p className="text-sm text-gray-500 mt-2">by {book.publisher}</p>
             <Link to={`/books/${book.id}`} className="btn btn-primary mt-4 inline-block">
-                View Details
+                Подробности
             </Link>
         </div>
     );

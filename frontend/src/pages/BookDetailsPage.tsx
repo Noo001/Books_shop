@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import { Book } from '../types';
+import { useAuth } from '@/contexts/AuthContext';
+import { Book } from '@/types';
 
 export default function BookDetailsPage() {
     const { id } = useParams<{ id: string }>();
@@ -11,7 +11,9 @@ export default function BookDetailsPage() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch(`/api/books/${id}`)
+        fetch(`/api/books/${id}`, {
+            credentials: 'include',
+        })
             .then(res => {
                 if (!res.ok) throw new Error('Not found');
                 return res.json();
@@ -22,17 +24,20 @@ export default function BookDetailsPage() {
     }, [id]);
 
     const handleDelete = async () => {
-        if (!confirm('Delete this book permanently?')) return;
-        await fetch(`/api/books/${id}`, { method: 'DELETE' });
+        if (!confirm('Удалить навсегда??')) return;
+        await fetch(`/api/books/${id}`, {
+            method: 'DELETE',
+            credentials: 'include',
+        });
         navigate('/books');
     };
 
-    if (loading) return <div className="container">Loading...</div>;
-    if (!book) return <div className="container">Book not found</div>;
+    if (loading) return <div className="container">Загрузка...</div>;
+    if (!book) return <div className="container">Книга не найдена</div>;
 
     return (
         <div className="container">
-            <Link to="/books" className="text-blue mb-4 inline-block">← Back to catalog</Link>
+            <Link to="/books" className="text-blue mb-4 inline-block">← Обратно в каталог</Link>
 
             <div className="card">
                 <div className="flex-between mb-2">
@@ -49,10 +54,10 @@ export default function BookDetailsPage() {
                     )}
                 </div>
 
-                <p className="text-gray-600 mb-4">Published by {book.publisher} on {new Date(book.created_at).toLocaleDateString()}</p>
+                <p className="text-gray-600 mb-4">Опубликовано пользователем {book.publisher} {new Date(book.created_at).toLocaleDateString()}</p>
 
                 <div className="mt-4">
-                    <h2 className="text-xl font-bold mb-2">Description</h2>
+                    <h2 className="text-xl font-bold mb-2">Описание</h2>
                     <p className="text-gray-700 whitespace-pre-wrap">{book.description}</p>
                 </div>
             </div>

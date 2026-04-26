@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BookFormData } from '../types';
+import { BookFormData } from '@/types';
 
 interface Props {
     initialData?: BookFormData;
@@ -8,7 +8,7 @@ interface Props {
 }
 
 const validate = (name: string, description: string): string | null => {
-    const pattern = /^[a-zA-Zа-яА-Я\d,;:.!?'"\-— /()\[\]]+$/;
+    const pattern = /^[\p{L}\p{N}\s\p{P}]+$/u;
     if (!name.trim()) return 'Name is required';
     if (!description.trim()) return 'Description is required';
     if (!pattern.test(name)) return 'Name contains invalid characters';
@@ -47,7 +47,7 @@ export default function BookForm({ initialData, onSubmit, submitLabel }: Props) 
             {error && <div className="text-red mb-4 p-2 bg-red-100 rounded">{error}</div>}
 
             <div className="mb-4">
-                <label>Name</label>
+                <label>Название</label>
                 <input
                     type="text"
                     value={name}
@@ -57,7 +57,7 @@ export default function BookForm({ initialData, onSubmit, submitLabel }: Props) 
             </div>
 
             <div className="mb-4">
-                <label>Description</label>
+                <label>Описание</label>
                 <textarea
                     rows={5}
                     value={description}
@@ -67,7 +67,7 @@ export default function BookForm({ initialData, onSubmit, submitLabel }: Props) 
             </div>
 
             <button type="submit" className="btn btn-primary w-full" disabled={loading}>
-                {loading ? 'Saving...' : submitLabel}
+                {loading ? 'Сохранение...' : submitLabel}
             </button>
         </form>
     );

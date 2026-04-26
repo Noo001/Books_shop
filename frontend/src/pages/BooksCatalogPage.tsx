@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '@/contexts/AuthContext';
 import BookCard from '../components/BookCard';
-import { Book } from '../types';
+import { Book } from '@/types';
 
 export default function BooksCatalogPage() {
     const [books, setBooks] = useState<Book[]>([]);
@@ -12,7 +12,9 @@ export default function BooksCatalogPage() {
     const { user } = useAuth();
 
     useEffect(() => {
-        fetch(`/api/books?sort=${sort}&order=${order}`)
+        fetch(`/api/books?sort=${sort}&order=${order}`, {
+            credentials: 'include',
+        })
             .then(res => res.json())
             .then(data => {
                 setBooks(data);
@@ -21,20 +23,20 @@ export default function BooksCatalogPage() {
             .catch(() => setLoading(false));
     }, [sort, order]);
 
-    if (loading) return <div className="container">Loading...</div>;
+    if (loading) return <div className="container">Загрузка...</div>;
 
     return (
         <div className="container">
             <div className="flex-between mb-6">
-                <h1 className="text-3xl font-bold">Books Catalog</h1>
+                <h1 className="text-3xl font-bold">Каталог книг</h1>
                 <div className="flex gap-2">
                     <select
                         value={sort}
                         onChange={(e) => setSort(e.target.value as any)}
                         className="p-2 border rounded"
                     >
-                        <option value="created_at">Sort by Date</option>
-                        <option value="name">Sort by Name</option>
+                        <option value="created_at">Сортировать по дате</option>
+                        <option value="name">Сортировать по названию</option>
                     </select>
                     <button
                         onClick={() => setOrder(order === 'asc' ? 'desc' : 'asc')}
@@ -44,7 +46,7 @@ export default function BooksCatalogPage() {
                     </button>
                     {user?.role === 'admin' && (
                         <Link to="/books/new" className="btn btn-primary">
-                            + Add Book
+                            + Добавить книгу
                         </Link>
                     )}
                 </div>
@@ -57,7 +59,7 @@ export default function BooksCatalogPage() {
             </div>
 
             {books.length === 0 && (
-                <div className="text-center p-6">No books found.</div>
+                <div className="text-center p-6">Ничего не найдено.</div>
             )}
         </div>
     );
